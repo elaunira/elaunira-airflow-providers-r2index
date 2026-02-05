@@ -97,9 +97,13 @@ class R2IndexHook(BaseHook):
     @classmethod
     def get_connection_form_widgets(cls) -> dict[str, Any]:
         """Define custom connection form widgets."""
-        from flask_appbuilder.fieldwidgets import BS3PasswordFieldWidget, BS3TextFieldWidget
+        from flask_appbuilder.fieldwidgets import (
+            BS3PasswordFieldWidget,
+            BS3TextAreaFieldWidget,
+            BS3TextFieldWidget,
+        )
         from flask_babel import lazy_gettext
-        from wtforms import PasswordField, StringField
+        from wtforms import PasswordField, StringField, TextAreaField
 
         return {
             "vault_conn_id": StringField(
@@ -112,9 +116,9 @@ class R2IndexHook(BaseHook):
                 widget=BS3TextFieldWidget(),
                 description="OpenBao namespace (e.g., ipregistry/production)",
             ),
-            "vault_secrets": StringField(
+            "vault_secrets": TextAreaField(
                 lazy_gettext("Vault Secrets (JSON)"),
-                widget=BS3TextFieldWidget(),
+                widget=BS3TextAreaFieldWidget(),
                 description="JSON mapping of config keys to secret paths",
             ),
             "r2_access_key_id": StringField(
