@@ -29,7 +29,7 @@ class R2IndexFileLink(BaseOperatorLink):
         """Get the link to the R2Index file."""
         from airflow.models import XCom
 
-        result = XCom.get_value(ti_key=ti_key)
+        result = XCom.get_value(ti_key=ti_key, key="return_value")
         if result and isinstance(result, dict):
             file_id = result.get("id") or result.get("file_record", {}).get("id")
             if file_id:
