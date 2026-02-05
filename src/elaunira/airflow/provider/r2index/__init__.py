@@ -9,11 +9,11 @@ def get_provider_info():
     """Return provider metadata for Airflow."""
     return {
         "package-name": "elaunira-airflow-provider-r2index",
-        "name": "Elaunira R2Index",
-        "description": "Airflow provider for Elaunira R2Index connections",
+        "name": "R2Index",
+        "description": "Airflow provider for R2Index connections",
         "connection-types": [
             {
-                "connection-type": "elaunira_r2index",
+                "connection-type": "r2index",
                 "hook-class-name": "elaunira.airflow.provider.r2index.hooks.r2index.R2IndexHook",
             }
         ],

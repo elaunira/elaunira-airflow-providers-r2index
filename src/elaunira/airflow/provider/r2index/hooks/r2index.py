@@ -62,8 +62,8 @@ class R2IndexHook(BaseHook):
 
     conn_name_attr = "r2index_conn_id"
     default_conn_name = "r2index_default"
-    conn_type = "elaunira_r2index"
-    hook_name = "Elaunira R2Index"
+    conn_type = "r2index"
+    hook_name = "R2Index"
 
     CONFIG_KEYS = [
         "r2index_api_url",
