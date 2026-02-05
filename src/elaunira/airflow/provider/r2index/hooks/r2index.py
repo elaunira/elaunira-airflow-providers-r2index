@@ -191,14 +191,20 @@ class R2IndexHook(BaseHook):
 
                 return secret_cache[path].get(key)
 
-            return {
+            config = {
                 "index_api_url": get_secret_value("r2index_api_url"),
                 "index_api_token": get_secret_value("r2index_api_token"),
                 "r2_access_key_id": get_secret_value("r2_access_key_id"),
                 "r2_secret_access_key": get_secret_value("r2_secret_access_key"),
                 "r2_endpoint_url": get_secret_value("r2_endpoint_url"),
             }
-        except Exception:
+            # Log which values are missing
+            missing = [k for k, v in config.items() if v is None]
+            if missing:
+                self.log.warning("Missing Vault secrets: %s", missing)
+            return config
+        except Exception as e:
+            self.log.error("Failed to get config from Vault: %s", e)
             return None
 
     def _get_config_from_connection(self) -> dict[str, str | None] | None:
@@ -233,7 +239,8 @@ class R2IndexHook(BaseHook):
                 "r2_secret_access_key": extra.get("r2_secret_access_key"),
                 "r2_endpoint_url": extra.get("r2_endpoint_url"),
             }
-        except Exception:
+        except Exception as e:
+            self.log.error("Failed to get config from connection: %s", e)
             return None
 
     def get_conn(self) -> R2IndexClient:
