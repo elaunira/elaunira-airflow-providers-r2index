@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "elaunira-airflow-provider-r2index"
-version = "0.2.0"
+version = "0.2.1"
 description = "Airflow provider for Elaunira R2Index connections"
 requires-python = ">=3.12"
 license = "MIT"
