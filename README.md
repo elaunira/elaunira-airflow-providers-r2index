@@ -5,7 +5,7 @@ Airflow provider package for R2Index, providing connection type, operators, and 
 ## Installation
 
 ```bash
-pip install elaunira-airflow-provider-r2index
+pip install elaunira-airflow-providers-r2index
 ```
 
 ## Features
@@ -70,7 +70,7 @@ If no connection is configured, the hook falls back to environment variables:
 Upload files to R2Index:
 
 ```python
-from elaunira.airflow.provider.r2index.operators import R2IndexUploadOperator, UploadItem
+from elaunira.airflow.providers.r2index.operators import R2IndexUploadOperator, UploadItem
 
 upload = R2IndexUploadOperator(
     task_id="upload_file",
@@ -94,7 +94,7 @@ upload = R2IndexUploadOperator(
 Download files from R2Index:
 
 ```python
-from elaunira.airflow.provider.r2index.operators import R2IndexDownloadOperator, DownloadItem
+from elaunira.airflow.providers.r2index.operators import R2IndexDownloadOperator, DownloadItem
 
 download = R2IndexDownloadOperator(
     task_id="download_file",
@@ -115,7 +115,7 @@ download = R2IndexDownloadOperator(
 
 ```python
 from airflow.sdk import dag, task
-from elaunira.airflow.provider.r2index.operators import UploadItem
+from elaunira.airflow.providers.r2index.operators import UploadItem
 
 @dag(schedule=None)
 def my_dag():
@@ -139,7 +139,7 @@ def my_dag():
 
 ```python
 from airflow.sdk import dag, task
-from elaunira.airflow.provider.r2index.operators import DownloadItem
+from elaunira.airflow.providers.r2index.operators import DownloadItem
 
 @dag(schedule=None)
 def my_dag():
@@ -158,7 +158,7 @@ def my_dag():
 ## Hook Usage
 
 ```python
-from elaunira.airflow.provider.r2index.hooks import R2IndexHook
+from elaunira.airflow.providers.r2index.hooks import R2IndexHook
 
 hook = R2IndexHook(r2index_conn_id="my_r2index_connection")
 client = hook.get_conn()

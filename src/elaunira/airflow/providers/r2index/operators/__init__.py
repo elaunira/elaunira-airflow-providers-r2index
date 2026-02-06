@@ -1,6 +1,6 @@
 """R2Index operators for Airflow."""
 
-from elaunira.airflow.provider.r2index.operators.r2index import (
+from elaunira.airflow.providers.r2index.operators.r2index import (
     DownloadItem,
     R2IndexDownloadOperator,
     R2IndexUploadOperator,

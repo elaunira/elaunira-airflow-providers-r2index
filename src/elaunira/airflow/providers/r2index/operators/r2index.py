@@ -10,8 +10,8 @@ from typing import TYPE_CHECKING, Any
 from airflow.exceptions import AirflowException
 from airflow.models import BaseOperator
 
-from elaunira.airflow.provider.r2index.hooks import R2IndexHook
-from elaunira.airflow.provider.r2index.links.r2index import R2IndexFileLink
+from elaunira.airflow.providers.r2index.hooks import R2IndexHook
+from elaunira.airflow.providers.r2index.links.r2index import R2IndexFileLink
 from elaunira.r2index import AsyncR2IndexClient
 
 if TYPE_CHECKING:

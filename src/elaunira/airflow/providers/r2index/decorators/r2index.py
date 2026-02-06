@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any, Callable, TypeVar
 
 from airflow.sdk.bases.decorator import task_decorator_factory
 
-from elaunira.airflow.provider.r2index.operators.r2index import (
+from elaunira.airflow.providers.r2index.operators.r2index import (
     DownloadItem,
     R2IndexDownloadOperator,
     R2IndexUploadOperator,
