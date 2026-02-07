@@ -207,7 +207,7 @@ class R2IndexDownloadOperator(BaseOperator):
                     return {
                         "status": "success",
                         "path": str(downloaded_path),
-                        "file_record": file_record.model_dump(),
+                        "file_record": file_record.model_dump() if file_record else None,
                     }
             except Exception as e:
                 return {
