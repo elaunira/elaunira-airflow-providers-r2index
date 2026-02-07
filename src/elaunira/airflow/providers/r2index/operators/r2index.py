@@ -24,34 +24,34 @@ if TYPE_CHECKING:
 class UploadItem:
     """Defines a single file to upload."""
 
-    source: str
     category: str
+    destination_filename: str
+    destination_path: str
+    destination_version: str
     entity: str
     extension: str
     media_type: str
-    destination_path: str
-    destination_filename: str
-    destination_version: str
+    source: str
     bucket: str | None = None
-    name: str | None = None
-    tags: list[str] | None = None
-    extra: dict[str, Any] | None = None
     create_checksum_files: bool = False
+    extra: dict[str, Any] | None = None
+    name: str | None = None
     r2index_conn_id: str | None = None
+    tags: list[str] | None = None
 
 
 @dataclass
 class DownloadItem:
     """Defines a single file to download."""
 
-    source_path: str
-    source_filename: str
-    source_version: str
     destination: str
+    source_filename: str
+    source_path: str
+    source_version: str
     bucket: str | None = None
-    verify_checksum: bool = True
     overwrite: bool = True
     r2index_conn_id: str | None = None
+    verify_checksum: bool = True
 
 
 class R2IndexUploadOperator(BaseOperator):
@@ -85,6 +85,8 @@ class R2IndexUploadOperator(BaseOperator):
         self.items = [items] if isinstance(items, UploadItem) else items
         self.r2index_conn_id = r2index_conn_id
         self.transfer_config = transfer_config
+
+
 
     def _get_client_config(self, conn_id: str) -> dict[str, Any]:
         """Get client configuration using the hook's priority chain."""
