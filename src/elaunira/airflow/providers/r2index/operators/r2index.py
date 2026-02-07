@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import asyncio
-import logging
 from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
@@ -17,6 +16,7 @@ from elaunira.r2index import AsyncR2IndexClient
 
 if TYPE_CHECKING:
     from airflow.utils.context import Context
+
 
 
 @dataclass
@@ -92,7 +92,6 @@ class R2IndexUploadOperator(BaseOperator):
 
     def execute(self, context: Context) -> list[dict[str, Any]]:
         """Execute the uploads in parallel."""
-        logging.getLogger("elaunira").setLevel(logging.DEBUG)
         # Group items by connection ID for efficient client reuse
         conn_configs: dict[str, dict[str, Any]] = {}
 
@@ -185,7 +184,6 @@ class R2IndexDownloadOperator(BaseOperator):
 
     def execute(self, context: Context) -> list[dict[str, Any]]:
         """Execute the downloads in parallel."""
-        logging.getLogger("elaunira").setLevel(logging.DEBUG)
         # Group items by connection ID for efficient client reuse
         conn_configs: dict[str, dict[str, Any]] = {}
 
