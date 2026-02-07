@@ -13,6 +13,7 @@ from airflow.models import BaseOperator
 from elaunira.airflow.providers.r2index.hooks import R2IndexHook
 from elaunira.airflow.providers.r2index.links.r2index import R2IndexFileLink
 from elaunira.r2index import AsyncR2IndexClient
+from elaunira.r2index.storage import R2TransferConfig
 
 if TYPE_CHECKING:
     from airflow.utils.context import Context
@@ -49,6 +50,7 @@ class DownloadItem:
     destination: str
     bucket: str | None = None
     verify_checksum: bool = True
+    overwrite: bool = True
     r2index_conn_id: str | None = None
 
 
@@ -75,12 +77,14 @@ class R2IndexUploadOperator(BaseOperator):
         bucket: str,
         items: list[UploadItem] | UploadItem,
         r2index_conn_id: str = "r2index_default",
+        transfer_config: R2TransferConfig | None = None,
         **kwargs: Any,
     ) -> None:
         super().__init__(**kwargs)
         self.bucket = bucket
         self.items = [items] if isinstance(items, UploadItem) else items
         self.r2index_conn_id = r2index_conn_id
+        self.transfer_config = transfer_config
 
     def _get_client_config(self, conn_id: str) -> dict[str, Any]:
         """Get client configuration using the hook's priority chain."""
@@ -121,6 +125,7 @@ class R2IndexUploadOperator(BaseOperator):
                         tags=item.tags,
                         extra=item.extra,
                         create_checksum_files=item.create_checksum_files,
+                        transfer_config=self.transfer_config,
                     )
                     return {"status": "success", "file_record": file_record.model_dump()}
             except Exception as e:
@@ -167,12 +172,14 @@ class R2IndexDownloadOperator(BaseOperator):
         bucket: str,
         items: list[DownloadItem] | DownloadItem,
         r2index_conn_id: str = "r2index_default",
+        transfer_config: R2TransferConfig | None = None,
         **kwargs: Any,
     ) -> None:
         super().__init__(**kwargs)
         self.bucket = bucket
         self.items = [items] if isinstance(items, DownloadItem) else items
         self.r2index_conn_id = r2index_conn_id
+        self.transfer_config = transfer_config
 
     def _get_client_config(self, conn_id: str) -> dict[str, Any]:
         """Get client configuration using the hook's priority chain."""
@@ -206,6 +213,8 @@ class R2IndexDownloadOperator(BaseOperator):
                         source_version=item.source_version,
                         destination=item.destination,
                         verify_checksum=item.verify_checksum,
+                        overwrite=item.overwrite,
+                        transfer_config=self.transfer_config,
                     )
                     return {
                         "status": "success",
